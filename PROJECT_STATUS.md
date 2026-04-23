@@ -2,13 +2,13 @@
 
 ## Project Goal
 
-This project uses Electric Cell-substrate Impedance Sensing (ECIS) data to study how drug timing affects cellular behavior over time. The goal is to build a reproducible analysis workflow that can process ECIS data, visualize impedance trends, compare experimental conditions, and support later physics-based and biological interpretation of ECIS responses. :contentReference[oaicite:0]{index=0} :contentReference[oaicite:1]{index=1}
+This project uses Electric Cell-substrate Impedance Sensing (ECIS) data to study how drug timing affects cellular behavior over time. The goal is to build a reproducible analysis workflow that can process ECIS data, visualize impedance trends, compare experimental conditions, and support later physics-based and biological interpretation of ECIS responses.
 
 ## Current Workflow Stage
 
-The project is currently in the **condition-level comparison stage** of the pilot ECIS analysis.
+The project is currently in the **multifrequency comparison stage** of the pilot ECIS analysis.
 
-This means the project has moved beyond basic preprocessing and single-condition testing. The workflow now includes comparing multiple pilot conditions using extracted ECIS features and condition-level summary plots. This fits the transition from **pilot and feasibility** work into early **parameter-finding / condition comparison**. :contentReference[oaicite:2]{index=2}
+The workflow has now moved beyond basic preprocessing, single-condition testing, and single-frequency comparison. It now includes condition-level quantitative comparison across multiple ECIS frequencies to test whether the same treatment patterns remain consistent across the multifrequency signal. :contentReference[oaicite:0]{index=0}
 
 ## What Has Been Completed
 
@@ -17,7 +17,7 @@ This means the project has moved beyond basic preprocessing and single-condition
 - Loaded pilot ECIS datasets into Python
 - Fixed file path and notebook execution issues
 - Cleaned and reorganized the notebook with markdown structure and clearer sections
-- Filtered pilot ECIS data to a single frequency (500 Hz) for initial analysis
+- Filtered pilot ECIS data to a single frequency for initial analysis
 - Normalized impedance values to baseline
 - Generated replicate plots for pilot wells
 - Confirmed that the preprocessing pipeline is functioning correctly
@@ -30,8 +30,8 @@ This means the project has moved beyond basic preprocessing and single-condition
   - approximate growth slope
 - Loaded metadata for all pilot wells
 - Created readable condition labels for all pilot conditions
-- Expanded the analysis from a single control-style well to **all 18 pilot wells**
-- Compared all **6 pilot conditions**:
+- Expanded the analysis from a single control-style well to all 18 pilot wells
+- Compared all 6 pilot conditions:
   - Control
   - A only
   - B only
@@ -40,38 +40,65 @@ This means the project has moved beyond basic preprocessing and single-condition
   - B then A (6 hr lag)
 - Built a well-level feature table for all pilot wells
 - Summarized extracted ECIS features by condition
-- Created condition-level comparison plots for:
-  - maximum normalized impedance
-  - time of maximum impedance
-  - approximate growth slope
-- Generated overlay plots of mean normalized ECIS curves by condition at 500 Hz
+- Created condition-level comparison plots at **500 Hz**
+- Generated overlay plots of mean normalized ECIS curves by condition at **500 Hz**
+- Repeated the same condition-level comparison workflow at **4000 Hz**
+- Repeated the same condition-level comparison workflow at **16000 Hz**
+- Combined summaries across **500 Hz, 4000 Hz, and 16000 Hz**
+- Created a cross-frequency pivot table for comparing condition behavior across frequencies
+- Confirmed that the overall treatment pattern remains consistent across multiple frequencies
 
-The pilot design used six conditions with three technical replicates each, matching the simulated pilot setup and metadata structure already defined for the project. :contentReference[oaicite:3]{index=3}
+## Last Completed Work – April 22, 2026
 
-## Last Completed Work – April 6, 2026
+The most recent work session focused on extending the pilot condition-comparison workflow beyond 500 Hz and into the multifrequency ECIS stage.
 
-The most recent work session focused on extending the pilot analysis from a single condition to a full condition-level comparison across all pilot wells.
+During this session, the same analysis pipeline was repeated at **4000 Hz** and **16000 Hz**. Condition-level feature summaries were generated for each frequency, and the results were combined into a single cross-frequency comparison table. This made it possible to directly compare how each treatment condition behaved across the multifrequency ECIS signal.
 
-During this session, the notebook was cleaned and restructured, metadata for all wells was loaded, condition labels were assigned, and quantitative ECIS features were extracted for every well at 500 Hz. These features were then grouped by condition and visualized using comparison plots and overlaid mean ECIS trajectories.
+### Multifrequency Results
 
-### Current 500 Hz Condition-Level Results
+Across **500 Hz, 4000 Hz, and 16000 Hz**, the same overall pattern remained present:
 
-Mean maximum normalized impedance by condition:
+- **Control** showed the highest ECIS response overall
+- **Single-drug conditions** were slightly lower than control
+- **Combination conditions** were lower than control and single-drug conditions
+- **Lagged combination conditions** remained among the lowest overall across frequencies
 
-- **Control:** 1.153978
-- **A only:** 1.147437
-- **B only:** 1.140840
-- **A + B (same time):** 1.139002
-- **B then A (6 hr lag):** 1.127131
-- **A then B (6 hr lag):** 1.125745
+### Mean Maximum Normalized Impedance by Frequency
 
-These results suggest that the **lagged combination conditions produced the lowest normalized impedance values**, while the control and single-drug conditions remained higher overall. The overlaid mean ECIS curves support the same pattern, with the lagged combinations showing lower trajectories over time than the control and single-drug groups.
+#### 500 Hz
 
-At this stage, this should be treated as a **preliminary pilot finding** from the simulated ECIS dataset rather than a final biological conclusion.
+- Control: **1.153978**
+- A only: **1.147437**
+- B only: **1.140840**
+- A + B (same time): **1.139002**
+- B then A (6 hr lag): **1.127131**
+- A then B (6 hr lag): **1.125745**
+
+#### 4000 Hz
+
+- Control: **1.151932**
+- B only: **1.140456**
+- A only: **1.139640**
+- A + B (same time): **1.136032**
+- A then B (6 hr lag): **1.136011**
+- B then A (6 hr lag): **1.134243**
+
+#### 16000 Hz
+
+- Control: **1.153428**
+- B only: **1.142923**
+- A only: **1.140061**
+- A + B (same time): **1.134170**
+- A then B (6 hr lag): **1.133882**
+- B then A (6 hr lag): **1.130702**
+
+These results suggest that the reduced ECIS response under combination and lagged combination treatments is **not limited to a single measurement frequency**. Instead, the same general treatment pattern remains visible across all three pilot frequencies, which strengthens the interpretation that the observed condition differences are robust rather than frequency-specific.
+
+At this stage, this should still be treated as a **preliminary pilot finding** from the simulated ECIS dataset rather than a final biological conclusion.
 
 ## Current Status
 
-The pilot preprocessing and single-condition analysis stages are complete. The project has now successfully advanced into **condition-level quantitative comparison** at 500 Hz.
+The pilot preprocessing, single-condition analysis, and 500 Hz condition-level comparison stages are complete. The project has now advanced through the **multifrequency comparison stage**.
 
 The notebook now supports:
 
@@ -79,33 +106,34 @@ The notebook now supports:
 - metadata-based grouping
 - feature extraction for every well
 - summary statistics by condition
-- visual comparison of experimental conditions
+- condition comparison across multiple frequencies
+- cross-frequency comparison tables and plots
 
-This means the analysis pipeline is no longer limited to proving that the data load correctly. It now supports the first real comparisons related to **dose, timing, and order of treatment**.
+This means the analysis pipeline now supports the first robust pilot comparison of **dose, timing, and order** across the multifrequency ECIS signal. Compared with the earlier project status, the “next step” of extending the workflow to **4000 Hz** and **16000 Hz** has now been completed. :contentReference[oaicite:1]{index=1}
 
 ## What I Am Currently Doing
 
-I have completed the first condition-level comparison across the pilot ECIS wells at 500 Hz.
+I have completed the multifrequency pilot comparison across **500 Hz, 4000 Hz, and 16000 Hz**.
 
-The next immediate step is to extend the same workflow to additional frequencies, especially **4000 Hz** and **16000 Hz**, so I can determine whether the same condition-level trends remain consistent across the multifrequency ECIS signal.
+The next step is to begin transitioning toward the **physics-based ECIS layer**, where the goal will be to connect impedance trends to interpretable parameters such as:
 
-This is important because ECIS is inherently a **multifrequency method**, and different frequencies can reflect different aspects of cell behavior. :contentReference[oaicite:5]{index=5}
+- **Rb**
+- **alpha**
+- **Cm**
+
+This will move the project from descriptive condition comparison into more interpretable ECIS modeling.
 
 ## What Is Left To Do
 
-- Repeat the condition-level comparison workflow at **4000 Hz**
-- Repeat the condition-level comparison workflow at **16000 Hz**
-- Compare feature trends across frequencies
-- Determine whether lag and order effects remain consistent across multifrequency ECIS data
-- Refine or expand quantitative metrics as needed
-- Add richer ECIS-derived features if useful
-- Begin transitioning toward the physics-based ECIS layer
+- Add a final cross-frequency visualization summarizing condition trends
+- Refine or expand quantitative ECIS metrics if needed
+- Begin the physics-based ECIS analysis stage
 - Use the physics-based ECIS model to connect impedance changes to interpretable parameters such as **Rb**, **alpha**, and **Cm**
+- Explore inverse fitting or model-based parameter estimation
 - Continue documenting analysis results in the notebook and repository
 - Prepare updated figures and summaries for discussion or presentation
-- Later connect ECIS trends to broader biological interpretation and drug-timing analysis
-
-The later workflow stages also include model development, validation, and prospective confirmation beyond the current pilot comparison stage.
+- Connect ECIS trends to broader biological interpretation and drug-timing analysis
+- Later move toward model development, validation, and prospective confirmation
 
 ## Workflow Position
 
@@ -119,13 +147,13 @@ The later workflow stages also include model development, validation, and prospe
 - Feature extraction ✅
 - Metadata integration ✅
 - Condition comparison at 500 Hz ✅
-- Multifrequency comparison ⏳
+- Multifrequency comparison ✅
 - Physics-based ECIS analysis ⏳
 - Biological interpretation ⏳
 - Reporting and presentation ⏳
 
 ## Summary
 
-The pilot ECIS workflow is now functioning through the **condition-comparison stage**. Initial analyses at 500 Hz show that the control and single-drug conditions maintain higher normalized impedance values, while the lagged combination conditions produce lower ECIS trajectories overall. This suggests that **drug timing and order may influence ECIS response** in the pilot dataset.
+The pilot ECIS workflow is now functioning through the **multifrequency comparison stage**. Initial analyses at **500 Hz, 4000 Hz, and 16000 Hz** show that the control condition maintains the highest ECIS response, single-drug conditions remain intermediate, and combination conditions—especially lagged combinations—produce reduced ECIS trajectories overall.
 
-The next step is to extend this same analysis across additional frequencies and then move toward multifrequency and physics-based ECIS interpretation.
+This suggests that **drug timing and order may influence ECIS response in a pattern that remains consistent across multiple frequencies**. The next step is to begin the physics-based ECIS stage and connect these signal-level differences to interpretable ECIS parameters.
