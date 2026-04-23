@@ -17,8 +17,7 @@ This project analyzes Electric Cell-Substrate Impedance Sensing (ECIS) time-seri
 The project currently includes:
 
 - Pilot ECIS preprocessing in Python/JupyterLab
-- Frequency filtering for initial 500 Hz analysis
-- Baseline normalization
+- Frequency filtering and baseline normalization
 - Replicate comparison and variability checks
 - Quantitative feature extraction:
   - maximum normalized impedance
@@ -27,6 +26,8 @@ The project currently includes:
   - approximate growth slope
 - Condition-level comparison across pilot wells
 - Summary plots and overlaid mean ECIS curves by condition
+- Multifrequency comparison across 500 Hz, 4000 Hz, and 16000 Hz
+- Cross-frequency summaries showing that the main treatment pattern remains consistent across the pilot ECIS frequencies
 
 ## Tools
 
@@ -46,8 +47,8 @@ The project currently includes:
 
 ## Current Workflow Stage
 
-The project is currently in the **pilot condition-comparison stage**.  
-Next steps include extending the same analysis to additional ECIS frequencies and later connecting the results to physics-based ECIS modeling.
+The project is currently in the **multifrequency comparison / early interpretation stage**.  
+The next step is to begin the physics-based ECIS analysis and connect impedance trends to interpretable parameters such as Rb, alpha, and Cm.
 
 ## Author
 
