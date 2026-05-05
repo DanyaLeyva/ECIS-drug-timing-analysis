@@ -6,9 +6,9 @@ This project uses Electric Cell-substrate Impedance Sensing (ECIS) data to study
 
 ## Current Workflow Stage
 
-The project is currently in the **multifrequency comparison stage** of the pilot ECIS analysis.
+The project is currently in the **early physics-based ECIS analysis stage**.
 
-The workflow has now moved beyond basic preprocessing, single-condition testing, and single-frequency comparison. It now includes condition-level quantitative comparison across multiple ECIS frequencies to test whether the same treatment patterns remain consistent across the multifrequency signal. :contentReference[oaicite:0]{index=0}
+The workflow has now moved beyond preprocessing, condition comparison, and multifrequency comparison. The current focus is on testing whether multifrequency ECIS signals can be used to recover interpretable biophysical parameters such as **Rb**, **alpha**, and **Cm** through inverse fitting.
 
 ## What Has Been Completed
 
@@ -31,109 +31,81 @@ The workflow has now moved beyond basic preprocessing, single-condition testing,
 - Loaded metadata for all pilot wells
 - Created readable condition labels for all pilot conditions
 - Expanded the analysis from a single control-style well to all 18 pilot wells
-- Compared all 6 pilot conditions:
-  - Control
-  - A only
-  - B only
-  - A + B (same time)
-  - A then B (6 hr lag)
-  - B then A (6 hr lag)
-- Built a well-level feature table for all pilot wells
-- Summarized extracted ECIS features by condition
-- Created condition-level comparison plots at **500 Hz**
-- Generated overlay plots of mean normalized ECIS curves by condition at **500 Hz**
-- Repeated the same condition-level comparison workflow at **4000 Hz**
-- Repeated the same condition-level comparison workflow at **16000 Hz**
-- Combined summaries across **500 Hz, 4000 Hz, and 16000 Hz**
-- Created a cross-frequency pivot table for comparing condition behavior across frequencies
-- Confirmed that the overall treatment pattern remains consistent across multiple frequencies
+- Compared all 6 pilot conditions at 500 Hz
+- Repeated condition-level comparison at 4000 Hz
+- Repeated condition-level comparison at 16000 Hz
+- Combined summaries across 500 Hz, 4000 Hz, and 16000 Hz
+- Confirmed that the overall treatment pattern remains consistent across frequencies
+- Began the physics-based ECIS analysis stage
+- Implemented the ECIS forward model and inverse-fitting functions in the notebook
+- Simulated one physics-based pilot ECIS well with multifrequency complex impedance output
+- Generated simulated ECIS data containing:
+  - Zreal
+  - Zimag
+  - Zmag
+  - Zphase
+  - true latent Rb
+  - true latent alpha
+  - true latent Cm
+- Attempted inverse fitting at one time point using multifrequency impedance values
+- Extended inverse fitting across all time points
+- Compared true versus estimated Rb, alpha, and Cm trajectories
+- Computed estimation error using mean absolute error (MAE)
 
-## Last Completed Work – April 22, 2026
+## Last Completed Work – May 5, 2026
 
-The most recent work session focused on extending the pilot condition-comparison workflow beyond 500 Hz and into the multifrequency ECIS stage.
+The most recent work session focused on starting the physics-based ECIS analysis layer.
 
-During this session, the same analysis pipeline was repeated at **4000 Hz** and **16000 Hz**. Condition-level feature summaries were generated for each frequency, and the results were combined into a single cross-frequency comparison table. This made it possible to directly compare how each treatment condition behaved across the multifrequency ECIS signal.
+During this session, a physics-based ECIS simulator was used to generate one pilot well with multifrequency complex impedance data and known latent parameter trajectories for **Rb**, **alpha**, and **Cm**. An inverse-fitting routine was then applied to estimate those parameters back from the simulated ECIS signal.
 
-### Multifrequency Results
+This established the first full forward-model / inverse-fit workflow in the notebook.
 
-Across **500 Hz, 4000 Hz, and 16000 Hz**, the same overall pattern remained present:
+## Current Physics-Based Result
 
-- **Control** showed the highest ECIS response overall
-- **Single-drug conditions** were slightly lower than control
-- **Combination conditions** were lower than control and single-drug conditions
-- **Lagged combination conditions** remained among the lowest overall across frequencies
+The physics-based simulation step ran successfully, and the inverse-fitting routine executed without crashing. However, the parameter recovery was **not yet reliable**.
 
-### Mean Maximum Normalized Impedance by Frequency
+The estimated values frequently hit the fitting bounds instead of closely matching the true simulated parameter values. As a result:
 
-#### 500 Hz
+- estimated **Rb** did not track the true Rb trajectory well
+- estimated **alpha** did not track the true alpha trajectory well
+- estimated **Cm** did not track the true Cm trajectory well
 
-- Control: **1.153978**
-- A only: **1.147437**
-- B only: **1.140840**
-- A + B (same time): **1.139002**
-- B then A (6 hr lag): **1.127131**
-- A then B (6 hr lag): **1.125745**
+The resulting error values were still high, indicating that the inverse-fitting setup needs debugging before it can be used for meaningful interpretation.
 
-#### 4000 Hz
-
-- Control: **1.151932**
-- B only: **1.140456**
-- A only: **1.139640**
-- A + B (same time): **1.136032**
-- A then B (6 hr lag): **1.136011**
-- B then A (6 hr lag): **1.134243**
-
-#### 16000 Hz
-
-- Control: **1.153428**
-- B only: **1.142923**
-- A only: **1.140061**
-- A + B (same time): **1.134170**
-- A then B (6 hr lag): **1.133882**
-- B then A (6 hr lag): **1.130702**
-
-These results suggest that the reduced ECIS response under combination and lagged combination treatments is **not limited to a single measurement frequency**. Instead, the same general treatment pattern remains visible across all three pilot frequencies, which strengthens the interpretation that the observed condition differences are robust rather than frequency-specific.
-
-At this stage, this should still be treated as a **preliminary pilot finding** from the simulated ECIS dataset rather than a final biological conclusion.
+This means the project has successfully entered the physics-based stage, but the inverse-fitting portion is still in a **debugging / validation phase**.
 
 ## Current Status
 
-The pilot preprocessing, single-condition analysis, and 500 Hz condition-level comparison stages are complete. The project has now advanced through the **multifrequency comparison stage**.
+The preprocessing, feature extraction, condition comparison, and multifrequency comparison stages are complete.
 
-The notebook now supports:
+The project has now successfully started the physics-based ECIS stage, but the inverse-fitting results are not yet accurate enough for interpretation. At this point, the notebook supports:
 
-- structured loading of all pilot wells
-- metadata-based grouping
-- feature extraction for every well
-- summary statistics by condition
-- condition comparison across multiple frequencies
-- cross-frequency comparison tables and plots
+- multifrequency ECIS simulation
+- latent parameter generation for Rb, alpha, and Cm
+- inverse fitting at single time points
+- inverse fitting across full time courses
+- comparison of true and estimated parameter trajectories
+- error quantification for parameter recovery
 
-This means the analysis pipeline now supports the first robust pilot comparison of **dose, timing, and order** across the multifrequency ECIS signal. Compared with the earlier project status, the “next step” of extending the workflow to **4000 Hz** and **16000 Hz** has now been completed. :contentReference[oaicite:1]{index=1}
+The main issue now is not running the workflow, but improving the quality of the recovered parameter estimates.
 
 ## What I Am Currently Doing
 
-I have completed the multifrequency pilot comparison across **500 Hz, 4000 Hz, and 16000 Hz**.
+I have completed the first test of the physics-based ECIS workflow.
 
-The next step is to begin transitioning toward the **physics-based ECIS layer**, where the goal will be to connect impedance trends to interpretable parameters such as:
-
-- **Rb**
-- **alpha**
-- **Cm**
-
-This will move the project from descriptive condition comparison into more interpretable ECIS modeling.
+The current task is now to debug the inverse-fitting setup so that the estimated values for **Rb**, **alpha**, and **Cm** can recover the simulated latent trajectories more accurately.
 
 ## What Is Left To Do
 
-- Add a final cross-frequency visualization summarizing condition trends
-- Refine or expand quantitative ECIS metrics if needed
-- Begin the physics-based ECIS analysis stage
-- Use the physics-based ECIS model to connect impedance changes to interpretable parameters such as **Rb**, **alpha**, and **Cm**
-- Explore inverse fitting or model-based parameter estimation
+- Debug the inverse-fitting routine
+- Re-test the fitting workflow with lower-noise or no-noise simulated data
+- Tighten or refine parameter bounds and starting values
+- Confirm that the inverse-fitting method can recover parameters correctly on a simple clean example
+- Improve parameter recovery before scaling the method further
+- Once fitting is stable, apply the physics-based workflow more broadly across conditions
 - Continue documenting analysis results in the notebook and repository
 - Prepare updated figures and summaries for discussion or presentation
-- Connect ECIS trends to broader biological interpretation and drug-timing analysis
-- Later move toward model development, validation, and prospective confirmation
+- Connect recovered ECIS parameters to broader biological interpretation and drug-timing analysis
 
 ## Workflow Position
 
@@ -148,12 +120,14 @@ This will move the project from descriptive condition comparison into more inter
 - Metadata integration ✅
 - Condition comparison at 500 Hz ✅
 - Multifrequency comparison ✅
-- Physics-based ECIS analysis ⏳
+- Physics-based ECIS simulation ✅
+- Inverse fitting attempted ✅
+- Reliable parameter recovery ⏳
 - Biological interpretation ⏳
 - Reporting and presentation ⏳
 
 ## Summary
 
-The pilot ECIS workflow is now functioning through the **multifrequency comparison stage**. Initial analyses at **500 Hz, 4000 Hz, and 16000 Hz** show that the control condition maintains the highest ECIS response, single-drug conditions remain intermediate, and combination conditions—especially lagged combinations—produce reduced ECIS trajectories overall.
+The pilot ECIS workflow is now functioning through the **early physics-based ECIS stage**. The project has progressed from preprocessing and multifrequency comparison into simulation and inverse fitting of interpretable ECIS parameters.
 
-This suggests that **drug timing and order may influence ECIS response in a pattern that remains consistent across multiple frequencies**. The next step is to begin the physics-based ECIS stage and connect these signal-level differences to interpretable ECIS parameters.
+A full physics-based forward-model / inverse-fit workflow has now been tested, but the current inverse-fitting setup does not yet recover **Rb**, **alpha**, and **Cm** reliably. The next step is to debug the fitting process using simpler, lower-noise tests before moving on to broader physics-based interpretation.
