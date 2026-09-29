@@ -1,133 +1,127 @@
-# ECIS Drug Timing Analysis – Project Status
+# Project Status: ECIS Drug Timing Analysis
 
-## Project Goal
+## Current Stage
 
-This project uses Electric Cell-substrate Impedance Sensing (ECIS) data to study how drug timing affects cellular behavior over time. The goal is to build a reproducible analysis workflow that can process ECIS data, visualize impedance trends, compare experimental conditions, and support later physics-based and biological interpretation of ECIS responses.
+The project is currently at the completed pilot/feasibility analysis stage with an initial physics-based modeling validation.
 
-## Current Workflow Stage
+The completed notebook includes descriptive ECIS analysis, multifrequency comparison, baseline quality control, clean simulated physics-based fitting, and noisy simulation robustness testing.
 
-The project is currently in the **early physics-based ECIS analysis stage**.
+## Completed Work
 
-The workflow has now moved beyond preprocessing, condition comparison, and multifrequency comparison. The current focus is on testing whether multifrequency ECIS signals can be used to recover interpretable biophysical parameters such as **Rb**, **alpha**, and **Cm** through inverse fitting.
+### 1. Data Loading and Setup
 
-## What Has Been Completed
+The pilot ECIS data and metadata were loaded successfully in Python using JupyterLab. File paths were checked, and the workflow was organized to analyze individual wells and treatment conditions.
 
-- Set up the project environment using Python, JupyterLab, and Anaconda
-- Organized the repository into data, notebooks, scripts, and results folders
-- Loaded pilot ECIS datasets into Python
-- Fixed file path and notebook execution issues
-- Cleaned and reorganized the notebook with markdown structure and clearer sections
-- Filtered pilot ECIS data to a single frequency for initial analysis
-- Normalized impedance values to baseline
-- Generated replicate plots for pilot wells
-- Confirmed that the preprocessing pipeline is functioning correctly
-- Calculated mean normalized impedance across replicates
-- Measured replicate variability using standard deviation
-- Extracted quantitative features including:
-  - maximum normalized impedance
-  - time of maximum impedance
-  - final normalized impedance
-  - approximate growth slope
-- Loaded metadata for all pilot wells
-- Created readable condition labels for all pilot conditions
-- Expanded the analysis from a single control-style well to all 18 pilot wells
-- Compared all 6 pilot conditions at 500 Hz
-- Repeated condition-level comparison at 4000 Hz
-- Repeated condition-level comparison at 16000 Hz
-- Combined summaries across 500 Hz, 4000 Hz, and 16000 Hz
-- Confirmed that the overall treatment pattern remains consistent across frequencies
-- Began the physics-based ECIS analysis stage
-- Implemented the ECIS forward model and inverse-fitting functions in the notebook
-- Simulated one physics-based pilot ECIS well with multifrequency complex impedance output
-- Generated simulated ECIS data containing:
-  - Zreal
-  - Zimag
-  - Zmag
-  - Zphase
-  - true latent Rb
-  - true latent alpha
-  - true latent Cm
-- Attempted inverse fitting at one time point using multifrequency impedance values
-- Extended inverse fitting across all time points
-- Compared true versus estimated Rb, alpha, and Cm trajectories
-- Computed estimation error using mean absolute error (MAE)
+### 2. ECIS Preprocessing
 
-## Last Completed Work – May 5, 2026
+The workflow filters impedance data by frequency and normalizes each well to its baseline value. This makes wells comparable across different starting impedance values.
 
-The most recent work session focused on starting the physics-based ECIS analysis layer.
+### 3. Technical Replicate Comparison
 
-During this session, a physics-based ECIS simulator was used to generate one pilot well with multifrequency complex impedance data and known latent parameter trajectories for **Rb**, **alpha**, and **Cm**. An inverse-fitting routine was then applied to estimate those parameters back from the simulated ECIS signal.
+Technical replicates were compared visually and quantitatively. The replicate curves showed similar overall trends, suggesting that the pilot dataset was stable enough for initial feature extraction and condition comparison.
 
-This established the first full forward-model / inverse-fit workflow in the notebook.
+### 4. Feature Extraction
 
-## Current Physics-Based Result
+The following response features were extracted for each well:
 
-The physics-based simulation step ran successfully, and the inverse-fitting routine executed without crashing. However, the parameter recovery was **not yet reliable**.
+- Maximum normalized impedance
+- Time of maximum response
+- Final normalized impedance
+- Approximate growth slope
 
-The estimated values frequently hit the fitting bounds instead of closely matching the true simulated parameter values. As a result:
+These features were used to summarize treatment-response patterns.
 
-- estimated **Rb** did not track the true Rb trajectory well
-- estimated **alpha** did not track the true alpha trajectory well
-- estimated **Cm** did not track the true Cm trajectory well
+### 5. Condition-Level Comparison
 
-The resulting error values were still high, indicating that the inverse-fitting setup needs debugging before it can be used for meaningful interpretation.
+Treatment conditions were compared at 500 Hz. The normalized impedance curves generally increased over time. The control and single-drug conditions showed higher normalized impedance responses, while lagged combination conditions showed lower responses.
 
-This means the project has successfully entered the physics-based stage, but the inverse-fitting portion is still in a **debugging / validation phase**.
+This suggests that drug timing and treatment order may affect the ECIS response, although the results should be interpreted as preliminary because this is a pilot dataset.
 
-## Current Status
+### 6. Multifrequency Comparison
 
-The preprocessing, feature extraction, condition comparison, and multifrequency comparison stages are complete.
+The condition-level comparison was extended across:
 
-The project has now successfully started the physics-based ECIS stage, but the inverse-fitting results are not yet accurate enough for interpretation. At this point, the notebook supports:
+- 500 Hz
+- 4000 Hz
+- 16000 Hz
 
-- multifrequency ECIS simulation
-- latent parameter generation for Rb, alpha, and Cm
-- inverse fitting at single time points
-- inverse fitting across full time courses
-- comparison of true and estimated parameter trajectories
-- error quantification for parameter recovery
+The same general trend appeared across frequencies. Control and single-drug conditions remained relatively high, while lagged combination treatments were generally lower. This suggests that the observed condition-level differences were not limited to only one frequency.
 
-The main issue now is not running the workflow, but improving the quality of the recovered parameter estimates.
+### 7. Baseline Quality Control
 
-## What I Am Currently Doing
+Baseline stability was evaluated using the first 120 minutes of each well-frequency signal. For each well and frequency, the baseline mean, standard deviation, and coefficient of variation were calculated.
 
-I have completed the first test of the physics-based ECIS workflow.
+All well-frequency combinations passed the baseline stability check:
 
-The current task is now to debug the inverse-fitting setup so that the estimated values for **Rb**, **alpha**, and **Cm** can recover the simulated latent trajectories more accurately.
+| Frequency | QC Result | Count |
+|---:|---|---:|
+| 500 Hz | Pass | 18 |
+| 4000 Hz | Pass | 18 |
+| 16000 Hz | Pass | 18 |
 
-## What Is Left To Do
+This supports the use of baseline normalization and suggests that later impedance changes are more likely related to treatment-response behavior rather than unstable baseline measurements.
 
-- Debug the inverse-fitting routine
-- Re-test the fitting workflow with lower-noise or no-noise simulated data
-- Tighten or refine parameter bounds and starting values
-- Confirm that the inverse-fitting method can recover parameters correctly on a simple clean example
-- Improve parameter recovery before scaling the method further
-- Once fitting is stable, apply the physics-based workflow more broadly across conditions
-- Continue documenting analysis results in the notebook and repository
-- Prepare updated figures and summaries for discussion or presentation
-- Connect recovered ECIS parameters to broader biological interpretation and drug-timing analysis
+### 8. Physics-Based ECIS Modeling
 
-## Workflow Position
+A physics-based ECIS simulation was created using known latent parameter trajectories:
 
-- Environment setup ✅
-- Data loading ✅
-- Frequency filtering ✅
-- Baseline normalization ✅
-- Pilot plotting ✅
-- Initial analysis notes ✅
-- Replicate summary statistics ✅
-- Feature extraction ✅
-- Metadata integration ✅
-- Condition comparison at 500 Hz ✅
-- Multifrequency comparison ✅
-- Physics-based ECIS simulation ✅
-- Inverse fitting attempted ✅
-- Reliable parameter recovery ⏳
-- Biological interpretation ⏳
-- Reporting and presentation ⏳
+- Rb
+- alpha
+- Cm
 
-## Summary
+An inverse-fitting routine was tested to determine whether these known parameters could be recovered from simulated multifrequency impedance data.
 
-The pilot ECIS workflow is now functioning through the **early physics-based ECIS stage**. The project has progressed from preprocessing and multifrequency comparison into simulation and inverse fitting of interpretable ECIS parameters.
+### 9. Clean Simulation Results
 
-A full physics-based forward-model / inverse-fit workflow has now been tested, but the current inverse-fitting setup does not yet recover **Rb**, **alpha**, and **Cm** reliably. The next step is to debug the fitting process using simpler, lower-noise tests before moving on to broader physics-based interpretation.
+Under clean simulated conditions with no added noise, the inverse-fitting routine successfully recovered the known Rb, alpha, and Cm trajectories. The true and estimated parameter curves overlapped closely, and the estimation errors were very small.
+
+This confirms that the fitting routine works under ideal simulated conditions.
+
+### 10. Noisy Simulation Results
+
+Noise was added to the simulated impedance data to test robustness. Although the optimizer still reported successful convergence, the estimated parameter trajectories became unstable, especially for Rb and alpha.
+
+The noisy simulation produced much larger errors than the clean simulation. This shows that optimizer success does not necessarily mean the estimated parameters are accurate.
+
+## Main Findings
+
+1. The descriptive ECIS analysis pipeline is functioning.
+2. Baseline normalization is supported by stable baseline QC results.
+3. Treatment conditions show preliminary differences in normalized impedance response.
+4. Control and single-drug conditions generally show higher normalized impedance responses.
+5. Lagged combination conditions generally show lower normalized impedance responses.
+6. The physics-based inverse-fitting routine works on clean simulated data.
+7. The physics-based fitting method becomes unstable when noise is added.
+8. More robustness improvements are needed before applying the physics-based model to real experimental ECIS data.
+
+## Work Not Yet Completed
+
+The larger project workflow includes additional stages that are not completed yet:
+
+- Full parameter-finding screen across larger dose, lag, and treatment-order grids
+- Focused schedule-optimization experiments with dense sampling
+- Full integration with flow cytometry and viability measurements
+- Full PINN-SSM or temporal classifier model development
+- Prospective confirmation of optimized schedules in held-out biological replicates
+
+These require additional experimental data and further model development.
+
+## Next Steps
+
+The next stage should focus on improving the physics-based fitting workflow and expanding the experimental analysis.
+
+Potential next steps include:
+
+- Testing smaller noise levels
+- Adding smoothing or regularization
+- Using previous time-point estimates as starting values for the next fit
+- Applying the fitting method to real ECIS data after robustness improves
+- Adding statistical testing across conditions
+- Integrating flow cytometry and viability data when available
+- Expanding toward schedule optimization experiments
+
+## Current Conclusion
+
+The pilot ECIS analysis workflow is complete for this stage. The project successfully loads, normalizes, visualizes, and summarizes ECIS time-series data across treatment conditions and frequencies. The baseline QC results support the reliability of the preprocessing workflow.
+
+The physics-based modeling workflow is promising because it can recover known ECIS parameters under clean simulated conditions. However, the noisy simulation results show that the current inverse-fitting method is sensitive to noise and requires additional development before being used for real experimental interpretation.

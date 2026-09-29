@@ -1,0 +1,6 @@
+.DS_Store
+.ipynb_checkpoints/
+.virtual_documents/
+anaconda_projects/db/
+__pycache__/
+*.pyc
